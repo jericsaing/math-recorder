@@ -174,7 +174,6 @@
 </head>
 
 <body>
-  <!-- Login Overlay -->
   <div id="loginOverlay">
     <div id="loginBox">
       <h3>Leader Login</h3>
@@ -205,7 +204,6 @@
     <input type="text" id="groupNumber">
   </div>
 
-  <!-- Table 1 section -->
   <div class="table-section">
     <div class="table-wrapper">
       <table id="table1">
@@ -238,7 +236,6 @@
     </div>
   </div>
 
-  <!-- Table 2 section -->
   <div class="table-section">
     <div class="table-wrapper">
       <table id="table2">
@@ -271,7 +268,6 @@
     </div>
   </div>
 
-  <!-- Table 3 section -->
   <div class="table-section">
     <div class="table-wrapper">
       <table id="table3">
@@ -299,7 +295,6 @@
     </div>
   </div>
 
-  <!-- Table 4 section -->
   <div class="table-section">
     <div class="table-wrapper">
       <table id="table4">
@@ -326,7 +321,6 @@
     </div>
   </div>
 
-  <!-- Table 5 section -->
   <div class="table-section">
     <div class="table-wrapper">
       <table id="table5">
@@ -358,213 +352,73 @@
   </div>
 
   <script>
-    // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9AIOJDgQp7BCrj_FJuwALXCIEGzZSfu3z8WriLHIkbsUS6bCmpzlq8UI3L1392FhV/exec';
 
-    // Password configuration for each leader
     const PASSWORDS = {
-      '1-1': 'password11',
-      '1-2': 'password12',
-      '1-3': 'password13',
-      '1-4': 'password14',
-      '1-5': 'password15',
-      '2-1': 'password21',
-      '2-2': 'password22',
-      '2-3': 'password23',
-      '2-4': 'password24',
-      '2-5': 'password25',
-      '3-1': 'password31',
-      '3-2': 'password32',
-      '3-3': 'password33',
-      '3-4': 'password34',
-      '3-5': 'password35',
-      '4-1': 'password41',
-      '4-2': 'password42',
-      '4-3': 'password43',
-      '4-4': 'password44',
-      '4-5': 'password45',
-      '5-1': 'password51',
-      '5-2': 'password52',
-      '5-3': 'password53',
-      '5-4': 'password54',
-      '5-5': 'password55',
-      '6-1': 'password61',
-      '6-2': 'password62',
-      '6-3': 'password63',
-      '6-4': 'password64',
-      '6-5': 'password65'
+      '1-1': 'password11', '1-2': 'password12', '1-3': 'password13', '1-4': 'password14', '1-5': 'password15',
+      '2-1': 'password21', '2-2': 'password22', '2-3': 'password23', '2-4': 'password24', '2-5': 'password25',
+      '3-1': 'password31', '3-2': 'password32', '3-3': 'password33', '3-4': 'password34', '3-5': 'password35',
+      '4-1': 'password41', '4-2': 'password42', '4-3': 'password43', '4-4': 'password44', '4-5': 'password45',
+      '5-1': 'password51', '5-2': 'password52', '5-3': 'password53', '5-4': 'password54', '5-5': 'password55',
+      '6-1': 'password61', '6-2': 'password62', '6-3': 'password63', '6-4': 'password64', '6-5': 'password65'
     };
-    // PWA Setup
+
     const manifestData = {
       name: "Math Record Sheet",
       short_name: "Math Records",
-      description: "Track math activities, practices, quizzes, and more",
-      start_url: ".",
       display: "standalone",
       background_color: "#ffffff",
       theme_color: "#4285f4",
-      orientation: "any",
-      icons: [
-        {
-          src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%234285f4' width='192' height='192' rx='24'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3E∑%3C/text%3E%3C/svg%3E",
-          sizes: "192x192",
-          type: "image/svg+xml",
-          purpose: "any maskable"
-        },
-        {
-          src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%234285f4' width='512' height='512' rx='64'/%3E%3Ctext x='256' y='350' font-size='280' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3E∑%3C/text%3E%3C/svg%3E",
-          sizes: "512x512",
-          type: "image/svg+xml",
-          purpose: "any maskable"
-        }
-      ]
+      icons: [{
+        src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%234285f4' width='192' height='192' rx='24'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='white' font-family='Arial, sans-serif' font-weight='bold'%3E∑%3C/text%3E%3C/svg%3E",
+        sizes: "192x192", type: "image/svg+xml"
+      }]
     };
 
     const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-    const manifestURL = URL.createObjectURL(manifestBlob);
-    document.getElementById('manifest-placeholder').setAttribute('href', manifestURL);
-    document.getElementById('icon-placeholder').setAttribute('href', manifestData.icons[0].src);
+    document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
 
-    // Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE_NAME = 'math-record-v1';
-        
-        self.addEventListener('install', (event) => {
-          self.skipWaiting();
-        });
-        
-        self.addEventListener('activate', (event) => {
-          event.waitUntil(clients.claim());
-        });
-        
-        self.addEventListener('fetch', (event) => {
-          event.respondWith(
-            caches.match(event.request).then((response) => {
-              return response || fetch(event.request).then((fetchResponse) => {
-                return caches.open(CACHE_NAME).then((cache) => {
-                  cache.put(event.request, fetchResponse.clone());
-                  return fetchResponse;
-                });
-              });
-            }).catch(() => {
-              return caches.match(event.request);
-            })
-          );
-        });
-      `;
-      
-      const swBlob = new Blob([swCode], { type: 'application/javascript' });
-      const swURL = URL.createObjectURL(swBlob);
-      
-      navigator.serviceWorker.register(swURL).then(() => {
-        console.log('Service Worker registered');
-      }).catch((error) => {
-        console.log('Service Worker registration failed:', error);
-      });
-    }
-
-    // Install Prompt
-    let deferredPrompt;
-    const installPrompt = document.getElementById('installPrompt');
-    const installBtn = document.getElementById('installBtn');
-    const dismissBtn = document.getElementById('dismissBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installPrompt.style.display = 'block';
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installPrompt.style.display = 'none';
-      }
-    });
-
-    dismissBtn.addEventListener('click', () => {
-      installPrompt.style.display = 'none';
-    });
-
-    window.addEventListener('appinstalled', () => {
-      deferredPrompt = null;
-      installPrompt.style.display = 'none';
-      showStatus('App installed successfully!');
-    });
-
-    // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const classParam = urlParams.get('class') || '';
     const leaderParam = urlParams.get('leader') || '';
-    
-    // Password protection
     const loginOverlay = document.getElementById('loginOverlay');
     const mainContent = document.getElementById('mainContent');
     const passwordInput = document.getElementById('passwordInput');
-    const loginBtn = document.getElementById('loginBtn');
-    const loginError = document.getElementById('loginError');
-    
     const leaderKey = `${classParam}-${leaderParam}`;
-    const correctPassword = PASSWORDS[leaderKey];
     const sessionKey = `auth_${leaderKey}`;
-    
-    // Check if already authenticated in this session
+
     if (sessionStorage.getItem(sessionKey) === 'authenticated') {
       loginOverlay.classList.add('hidden');
       mainContent.classList.remove('hidden');
     }
     
     function checkPassword() {
-      const enteredPassword = passwordInput.value;
-      
-      if (!classParam || !leaderParam) {
-        loginError.textContent = 'Invalid URL. Please use the correct link.';
-        loginError.style.display = 'block';
-        return;
-      }
-      
-      if (enteredPassword === correctPassword) {
+      if (passwordInput.value === PASSWORDS[leaderKey]) {
         sessionStorage.setItem(sessionKey, 'authenticated');
         loginOverlay.classList.add('hidden');
         mainContent.classList.remove('hidden');
-        loginError.style.display = 'none';
         initialLoad();
       } else {
-        loginError.style.display = 'block';
-        passwordInput.value = '';
-        passwordInput.focus();
+        document.getElementById('loginError').style.display = 'block';
       }
     }
     
-    loginBtn.addEventListener('click', checkPassword);
-    passwordInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') checkPassword();
-    });
-    
-    // Focus password input on load
-    passwordInput.focus();
-    
-    // Create unique storage key based on URL parameters
-    const STORAGE_KEY = classParam && leaderParam 
-      ? `math_record_${classParam}_${leaderParam}_v14`
-      : "math_record_sheet_v14";
+    document.getElementById('loginBtn').onclick = checkPassword;
+    passwordInput.onkeypress = (e) => { if (e.key === 'Enter') checkPassword(); };
 
-    const ROW_COUNT = 10;
+    const STORAGE_KEY = classParam && leaderParam ? `math_record_${classParam}_${leaderParam}_v15` : "math_record_sheet_v15";
+    
+    // UPDATED: Changed from 10 to 15
+    const ROW_COUNT = 15;
 
-    const status = document.getElementById("status");
     const leader = document.getElementById("leaderName");
     const section = document.getElementById("section");
     const group = document.getElementById("groupNumber");
-
     const table1Tbody = document.getElementById("table1-tbody");
     const table2Tbody = document.getElementById("table2-tbody");
     const table3Tbody = document.getElementById("table3-tbody");
     const table4Tbody = document.getElementById("table4-tbody");
     const table5Tbody = document.getElementById("table5-tbody");
-
     const table1HeadInputs = document.querySelectorAll("#table1 thead input.cell");
     const table2HeadInputs = document.querySelectorAll("#table2 thead input.cell");
     const table3HeadInputs = document.querySelectorAll("#table3 thead input.cell");
@@ -585,86 +439,41 @@
 
     function initialLoad() {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
-
-      // Auto-fill from URL parameters or use saved data
-      if (classParam && leaderParam && !saved.leader) {
-        leader.value = `Leader ${leaderParam}`;
-        section.value = `Class ${classParam}`;
-        group.value = leaderParam;
-      } else {
-        leader.value = saved.leader || "";
-        section.value = saved.section || "";
-        group.value = saved.group || "";
-      }
+      leader.value = saved.leader || (leaderParam ? `Leader ${leaderParam}` : "");
+      section.value = saved.section || (classParam ? `Class ${classParam}` : "");
+      group.value = saved.group || (leaderParam || "");
       
-      // Helper function to render exactly ROW_COUNT rows from saved data
       const renderTable = (tbody, savedData, columnCount, readOnlyIndices, headerInputs, savedHeaders) => {
-        // Clear existing rows (in case of re-initialization or old data)
         tbody.innerHTML = ''; 
-
-        // Get the data to render, limited to ROW_COUNT (10)
         const dataToRender = (savedData || []).slice(0, ROW_COUNT);
-
-        // Render rows with data
         dataToRender.forEach(r => renderRow(tbody, columnCount, r, readOnlyIndices));
-        
-        // Fill remaining rows up to ROW_COUNT with empty rows
-        for (let i = dataToRender.length; i < ROW_COUNT; i++) {
-          renderRow(tbody, columnCount, [], readOnlyIndices);
-        }
-        
-        // Restore headers if available
+        for (let i = dataToRender.length; i < ROW_COUNT; i++) renderRow(tbody, columnCount, [], readOnlyIndices);
         if(headerInputs && savedHeaders) headerInputs.forEach((input,i)=>input.value=savedHeaders[i]||"");
       };
 
-      // Table 1 (Activity) - 28 columns, 27 is readonly
       renderTable(table1Tbody, saved.table1, 28, [27], table1HeadInputs, saved.table1Headers);
-
-      // Table 2 (Practice) - 28 columns, 27 is readonly
       renderTable(table2Tbody, saved.table2, 28, [27], table2HeadInputs, saved.table2Headers);
-
-      // Table 3 (QRLS) - 16 columns, 12 is readonly
       renderTable(table3Tbody, saved.table3, 16, [12], table3HeadInputs, saved.table3Headers);
-
-      // Table 4 (Flashcards) - 38 columns, 37 is readonly
-      renderTable(table4Tbody, saved.table4, 38, [37]); // No header inputs array passed
-
-      // Table 5 (Summary) - 9 columns, all readonly (0-8)
-      renderTable(table5Tbody, saved.table5, 9, [0,1,2,3,4,5,6,7,8]); // No header inputs array passed
+      renderTable(table4Tbody, saved.table4, 38, [37]);
+      renderTable(table5Tbody, saved.table5, 9, [0,1,2,3,4,5,6,7,8]);
 
       setupFormulas();
-      attachAutosaveListeners(); // NEW: Attach listeners after initial load/render
+      attachAutosaveListeners();
     }
 
-    // NEW: Debounce utility function
     function debounce(func, timeout = 1500) {
       let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-      };
+      return (...args) => { clearTimeout(timer); timer = setTimeout(() => { func.apply(this, args); }, timeout); };
     }
     
-    // NEW: Function to attach event listeners for autosave
     function attachAutosaveListeners() {
-      // Debounced version of saveAll (which includes sync)
-      const debouncedSaveAll = debounce(saveAll, 1500); // 1.5 seconds delay
-      
-      // Select all editable cell inputs and header inputs
-      const allEditableInputs = [
-        ...document.querySelectorAll("#mainContent input.cell:not([readonly])"),
-        ...document.querySelectorAll("#leaderName, #section, #groupNumber")
-      ];
-      
-      allEditableInputs.forEach(input => {
-        // Remove existing listener before adding to prevent duplicates
+      const debouncedSaveAll = debounce(saveAll, 1500);
+      const inputs = [...document.querySelectorAll("#mainContent input.cell:not([readonly])"), leader, section, group];
+      inputs.forEach(input => {
         input.removeEventListener('input', debouncedSaveAll); 
-        
-        // Add the new debounced listener
         input.addEventListener('input', debouncedSaveAll);
       });
     }
-
 
     function setupFormulas() {
       const t1Rows = table1Tbody.querySelectorAll("tr");
@@ -674,248 +483,73 @@
       const t5Rows = table5Tbody.querySelectorAll("tr");
 
       t1Rows.forEach((row,i)=>{
-        const t1Inputs = row.querySelectorAll("input.cell");
-        const t2Inputs = t2Rows[i].querySelectorAll("input.cell");
-        const t3Inputs = t3Rows[i].querySelectorAll("input.cell");
-        const t4Inputs = t4Rows[i].querySelectorAll("input.cell");
-        const t5Inputs = t5Rows[i].querySelectorAll("input.cell");
+        const t1In = row.querySelectorAll("input.cell");
+        const t2In = t2Rows[i].querySelectorAll("input.cell");
+        const t3In = t3Rows[i].querySelectorAll("input.cell");
+        const t4In = t4Rows[i].querySelectorAll("input.cell");
+        const t5In = t5Rows[i].querySelectorAll("input.cell");
 
         const recalc = ()=>{
-          let actSum=0; for(let j=2;j<=26;j++){const val=parseFloat(t1Inputs[j].value);if(!isNaN(val)) actSum+=val;}
-          t1Inputs[27].value=actSum; t5Inputs[2].value=actSum;
+          let actSum=0; for(let j=2;j<=26;j++){const v=parseFloat(t1In[j].value); if(!isNaN(v)) actSum+=v;}
+          t1In[27].value=actSum; t5In[2].value=actSum;
 
-          t2Inputs[0].value=t1Inputs[0].value; t2Inputs[1].value=t1Inputs[1].value;
-          t3Inputs[0].value=t1Inputs[0].value; t3Inputs[1].value=t1Inputs[1].value;
-          t4Inputs[0].value=t1Inputs[0].value; t4Inputs[1].value=t1Inputs[1].value;
-          t5Inputs[0].value=t1Inputs[0].value; t5Inputs[1].value=t1Inputs[1].value;
+          [t2In, t3In, t4In, t5In].forEach(set => { set[0].value=t1In[0].value; set[1].value=t1In[1].value; });
 
-          let prSum=0; for(let j=2;j<=26;j++){const val=parseFloat(t2Inputs[j].value);if(!isNaN(val)) prSum+=val;}
-          t2Inputs[27].value=prSum; t5Inputs[3].value=prSum;
+          let prSum=0; for(let j=2;j<=26;j++){const v=parseFloat(t2In[j].value); if(!isNaN(v)) prSum+=v;}
+          t2In[27].value=prSum; t5In[3].value=prSum;
 
-          let quizSum=0; for(let j=2;j<=11;j++){const val=parseFloat(t3Inputs[j].value);if(!isNaN(val)) quizSum+=val;}
-          t3Inputs[12].value=quizSum; t5Inputs[4].value=quizSum;
+          let qSum=0; for(let j=2;j<=11;j++){const v=parseFloat(t3In[j].value); if(!isNaN(v)) qSum+=v;}
+          t3In[12].value=qSum; t5In[4].value=qSum;
 
-          t5Inputs[5].value=t3Inputs[13].value;
-          t5Inputs[6].value=t3Inputs[14].value;
-          t5Inputs[7].value=t3Inputs[15].value;
+          t5In[5].value=t3In[13].value; t5In[6].value=t3In[14].value; t5In[7].value=t3In[15].value;
 
-          let fcSum=0; for(let j=2;j<=36;j++){const val=parseFloat(t4Inputs[j].value);if(!isNaN(val)) fcSum+=val;}
-          t4Inputs[37].value=fcSum; t5Inputs[8].value=fcSum;
+          let fcSum=0; for(let j=2;j<=36;j++){const v=parseFloat(t4In[j].value); if(!isNaN(v)) fcSum+=v;}
+          t4In[37].value=fcSum; t5In[8].value=fcSum;
         };
 
-        t1Inputs.forEach(input=>input.addEventListener("input", recalc));
-        t2Inputs.forEach((input,j)=>{if(j<27) input.addEventListener("input", recalc)});
-        t3Inputs.forEach((input,j)=>{if(j<12 || j>=13) input.addEventListener("input", recalc)});
-        t4Inputs.forEach((input,j)=>{if(j<37) input.addEventListener("input", recalc)});
+        [t1In, t2In, t3In, t4In].forEach(set => set.forEach(input => input.addEventListener("input", recalc)));
       });
-      
-      attachAutosaveListeners(); // Ensure all new inputs get listeners
     }
 
     function saveAll() {
-      const getRows = tbody => [...tbody.querySelectorAll("tr")].map(tr =>
-        [...tr.querySelectorAll("input.cell")].map(x=>x.value.replace(/,/g," "))
-      );
-
+      const getRows = tbody => [...tbody.querySelectorAll("tr")].map(tr => [...tr.querySelectorAll("input.cell")].map(x=>x.value.replace(/,/g," ")));
       const data = {
-        leader: leader.value.trim(),
-        section: section.value.trim(),
-        group: group.value.trim(),
-        table1: getRows(table1Tbody),
-        table1Headers: [...table1HeadInputs].map(x=>x.value.replace(/,/g," ")),
-        table2: getRows(table2Tbody),
-        table2Headers: [...table2HeadInputs].map(x=>x.value.replace(/,/g," ")),
-        table3: getRows(table3Tbody),
-        table3Headers: [...table3HeadInputs].map(x=>x.value.replace(/,/g," ")),
-        table4: getRows(table4Tbody),
-        table5: getRows(table5Tbody)
+        leader: leader.value.trim(), section: section.value.trim(), group: group.value.trim(),
+        table1: getRows(table1Tbody), table1Headers: [...table1HeadInputs].map(x=>x.value.replace(/,/g," ")),
+        table2: getRows(table2Tbody), table2Headers: [...table2HeadInputs].map(x=>x.value.replace(/,/g," ")),
+        table3: getRows(table3Tbody), table3Headers: [...table3HeadInputs].map(x=>x.value.replace(/,/g," ")),
+        table4: getRows(table4Tbody), table5: getRows(table5Tbody)
       };
-
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       showStatus("Saved");
-      
-      // Auto-sync to Google Sheets after saving
       syncToGoogleSheets();
     }
 
-    function showStatus(msg){ status.textContent=msg; status.style.opacity="1"; setTimeout(()=>{status.style.opacity="0";},1500); }
+    function showStatus(msg){ 
+      const s = document.getElementById("status");
+      s.textContent=msg; s.style.opacity="1"; setTimeout(()=>{s.style.opacity="0";},1500); 
+    }
 
-    function copyCSV(){
-      const headerInfo=`Leader: ${leader.value}\nSection: ${section.value}\nGroup: ${group.value}\n\n`;
-      
-      const rows = [...table5Tbody.querySelectorAll("tr")]
-        .map(tr => {
-          const inputs = [...tr.querySelectorAll("input.cell")];
-          return inputs.map(x => `"${x.value.replace(/"/g,'""')}"`).join(",");
-        })
-        .filter(row => {
-          const values = row.split(',').slice(0, 2).map(v => v.replace(/"/g, '').trim());
-          return values[0] !== '' || values[1] !== '';
-        })
-        .join("\n");
-
-      const text = headerInfo + rows;
-
-      navigator.clipboard.writeText(text)
-        .then(()=>showStatus("CSV copied"))
-        .catch(()=>{
-          const ta = document.createElement("textarea");
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          ta.remove();
-          showStatus("CSV copied");
-        });
+    async function syncToGoogleSheets() {
+      if (!classParam || !leaderParam || GOOGLE_SCRIPT_URL.includes('YOUR_SCRIPT')) return;
+      const getRows = tbody => [...tbody.querySelectorAll("tr")].map(tr => [...tr.querySelectorAll("input.cell")].map(x=>x.value));
+      const payload = {
+        class: classParam, leader: leaderParam, leaderName: leader.value, section: section.value, groupNumber: group.value,
+        table1: getRows(table1Tbody), table1Headers: [...table1HeadInputs].map(x=>x.value),
+        table2: getRows(table2Tbody), table2Headers: [...table2HeadInputs].map(x=>x.value),
+        table3: getRows(table3Tbody), table3Headers: [...table3HeadInputs].map(x=>x.value),
+        table4: getRows(table4Tbody), table5: getRows(table5Tbody).filter(r => r[0] || r[1])
+      };
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+        showStatus("Saved & Synced!");
+      } catch (e) { showStatus("Saved (sync failed)"); }
     }
 
     document.getElementById("saveBtn").onclick = saveAll;
-    document.getElementById("saveBtnTable1").onclick = saveAll;
-    document.getElementById("saveBtnTable2").onclick = saveAll;
-    document.getElementById("saveBtnTable3").onclick = saveAll;
-    document.getElementById("saveBtnTable4").onclick = saveAll;
-    document.getElementById("copyBtn").onclick = copyCSV;
-    document.getElementById("syncBtn").onclick = saveAll; // CHANGED: Calls saveAll to trigger sync
-
-    async function syncToGoogleSheets() {
-      if (!classParam || !leaderParam) {
-        return; // Silently skip if no URL parameters
-      }
-
-      if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
-        return; // Silently skip if not configured
-      }
-
-      // Helper function to get row data (raw values)
-      const getRows = tbody => [...tbody.querySelectorAll("tr")].map(tr =>
-        [...tr.querySelectorAll("input.cell")].map(x=>x.value)
-      );
-
-      // Helper function to get header data
-      const getHeaders = headerInputs => [...headerInputs].map(x=>x.value);
-      
-      const payload = {
-        class: classParam,
-        leader: leaderParam,
-        
-        // Info boxes
-        leaderName: leader.value.trim(),
-        section: section.value.trim(),
-        groupNumber: group.value.trim(),
-        
-        // Table 1 Data
-        table1: getRows(table1Tbody),
-        table1Headers: getHeaders(table1HeadInputs),
-        
-        // Table 2 Data
-        table2: getRows(table2Tbody),
-        table2Headers: getHeaders(table2HeadInputs),
-        
-        // Table 3 Data
-        table3: getRows(table3Tbody),
-        table3Headers: getHeaders(table3HeadInputs),
-        
-        // Table 4 Data
-        table4: getRows(table4Tbody),
-        
-        // Table 5 Data (Summary - filtered for non-empty student rows)
-        table5: getRows(table5Tbody).filter(row => row[0] || row[1])
-      };
-
-      try {
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        });
-
-        showStatus("Saved & Synced!");
-      } catch (error) {
-        showStatus("Saved (sync failed)");
-      }
-    }
-
-    document.getElementById("clearAllBtn").onclick = function() {
-      if (confirm("Are you sure you want to clear ALL data from all tables? This cannot be undone!")) {
-        const allTables = [
-          {tbody: table1Tbody, headers: table1HeadInputs},
-          {tbody: table2Tbody, headers: table2HeadInputs},
-          {tbody: table3Tbody, headers: table3HeadInputs},
-          {tbody: table4Tbody, headers: null},
-          {tbody: table5Tbody, headers: null}
-        ];
-        
-        allTables.forEach(({tbody, headers}) => {
-          const rows = tbody.querySelectorAll("tr");
-          rows.forEach(row => {
-            const inputs = row.querySelectorAll("input.cell");
-            inputs.forEach(input => {
-              input.value = "";
-            });
-          });
-          
-          if (headers) {
-            headers.forEach(h => h.value = "");
-          }
-        });
-        
-        leader.value = "";
-        section.value = "";
-        group.value = "";
-        
-        showStatus("All data cleared");
-        saveAll();
-      }
-    };
-
-    document.getElementById("clearBtnTable1").onclick = function() {
-      if (confirm("Are you sure you want to clear all Activity data?")) {
-        clearTable(table1Tbody, table1HeadInputs);
-      }
-    };
+    document.getElementById("syncBtn").onclick = saveAll;
+    document.getElementById("clearAllBtn").onclick = () => { if(confirm("Clear all?")) { localStorage.removeItem(STORAGE_KEY); location.reload(); }};
     
-    document.getElementById("clearBtnTable2").onclick = function() {
-      if (confirm("Are you sure you want to clear all Practice data?")) {
-        clearTable(table2Tbody, table2HeadInputs);
-      }
-    };
-    
-    document.getElementById("clearBtnTable3").onclick = function() {
-      if (confirm("Are you sure you want to clear all QRLS data?")) {
-        clearTable(table3Tbody, table3HeadInputs);
-      }
-    };
-    
-    document.getElementById("clearBtnTable4").onclick = function() {
-      if (confirm("Are you sure you want to clear all Flashcards data?")) {
-        clearTable(table4Tbody, null);
-      }
-    };
-
-    function clearTable(tbody, headers) {
-      const rows = tbody.querySelectorAll("tr");
-      rows.forEach(row => {
-        const inputs = row.querySelectorAll("input.cell");
-        inputs.forEach((input, index) => {
-          if (index >= 2 && !input.readOnly) {
-            input.value = "";
-          }
-        });
-      });
-      
-      if (headers) {
-        headers.forEach(h => h.value = "");
-      }
-      
-      showStatus("Cleared");
-      saveAll();
-    }
-
-    window.onbeforeunload = saveAll;
-
     initialLoad();
   </script>
 </body>
